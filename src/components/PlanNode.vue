@@ -149,7 +149,6 @@
                 content="Visibility map may be out-of-date. Consider using VACUUM or change autovacuum settings."
                 v-tippy="{arrow: true}"
               ></i>
-              </span>
             </div>
             <div v-if="node[nodeProps.EXCLUSIVE_COST]">
               <i class="fa fa-fw fa-dollar-sign text-muted"></i>
@@ -160,6 +159,22 @@
               <b>Loops:</b> <span class="px-1">{{ formattedProp('ACTUAL_LOOPS') }}
               </span>
             </div>
+
+            <!-- TIDB Custom statistic -->
+            <div v-if="node[nodeProps.DISK]" title="Disk Usage">
+              <i class="fa-hdd fa fa-fw text-muted"></i>
+              <span>
+                <b>Disk:</b> <span class="px-1">{{ formattedProp('DISK') }}</span>
+              </span>
+            </div>
+
+             <div v-if="node[nodeProps.MEMORY]" title="Memory Usage">
+              <i class="fa-memory fa fa-fw text-muted"></i>
+              <span>
+                <b>Memory:</b> <span class="px-1">{{ formattedProp('MEMORY') }}</span>
+              </span>
+            </div>
+
             <!-- general tab -->
           </div>
           <div class="tab-pane" :class="{'show active': activeTab === 'iobuffer' }">
@@ -492,6 +507,7 @@ export default class PlanNode extends Vue {
   private getNodeName(): string {
     let nodeName = this.isParallelAware ? 'Parallel ' : '';
     nodeName += this.node[NodeProp.NODE_TYPE];
+    nodeName = nodeName.replace(/_\d*?$/g, '');
     if (this.viewOptions.viewMode === ViewMode.DOT && !this.showDetails) {
       return nodeName.replace(/[^A-Z]/g, '');
     }
