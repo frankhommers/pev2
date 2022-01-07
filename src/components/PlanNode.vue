@@ -22,15 +22,13 @@
            @mouseenter="eventBus.$emit('mouseovernode', node.nodeId)"
            @mouseleave="eventBus.$emit('mouseoutnode', node.nodeId)"
       >
-        <div :class="['card-body header no-focus-outline', {'high-cost': node[nodeProps.ACTUAL_ROWS] === highestCost}]"
+        <div :class="['card-body header no-focus-outline', taskClassName]"
             v-on:click.stop="showDetails = !showDetails"
         >
           <header class="mb-0">
             <h4 class="text-body">
               <a class="font-weight-normal small" :href="'#plan/node/' + node.nodeId" @click.stop>#{{node.nodeId}}</a>
-              <span :class="taskClassName">
-                {{ getNodeName() }}
-              </span>
+              {{ getNodeName() }}
             </h4>
             <div class="float-right">
               <span v-if="durationClass" :class="'p-0  d-inline-block mb-0 ml-1 text-nowrap alert ' + durationClass" content="Slow" v-tippy><i class="fa fa-fw fa-clock"></i></span>
@@ -184,12 +182,12 @@
               </span>
             </div>
 
-             <div v-if="node[nodeProps.TASK]" title="Task">
+             <!-- <div v-if="node[nodeProps.TASK]" title="Task">
               <i class="fa-thumbtack fa fa-fw text-muted"></i>
               <span>
                 <b>Task:</b> <span class="px-1">{{ formattedProp('TASK') }}</span>
               </span>
-            </div>
+            </div> -->
 
             <!-- general tab -->
           </div>

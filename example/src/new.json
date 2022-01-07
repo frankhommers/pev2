@@ -1,0 +1,162 @@
+{
+  "Node Id": "HashJoin",
+  "Plan Rows": 6.2437499999999995,
+  "Actual Rows": 8,
+  "Task": "root",
+  "Total Time": 1959333,
+  "Max Time": 1959333,
+  "Access Object": "",
+  "Operation Info": "inner join, equal:[eq(test.t2.b, test.t3.c)]",
+  "Execution Info": "time:1.96ms, loops:2, build_hash_table:{total:652.9µs, fetch:578.3µs, build:74.7µs}, probe:{concurrency:5, total:3.34ms, max:1.06ms, probe:37.2µs, fetch:3.3ms}",
+  "Disk": 0,
+  "Memory": 8432,
+  "Plans": [
+    {
+      "Node Id": "HashJoin",
+      "Plan Rows": 4.995,
+      "Actual Rows": 8,
+      "Task": "root",
+      "Total Time": 815875,
+      "Max Time": 815875,
+      "Access Object": "",
+      "Operation Info": "inner join, equal:[eq(test.t.a, test.t2.b)]",
+      "Execution Info": "time:815.9µs, loops:2, build_hash_table:{total:142.1µs, fetch:124.8µs, build:17.3µs}, probe:{concurrency:5, total:326.4µs, max:93.5µs, probe:79.9µs, fetch:246.5µs}",
+      "Disk": 0,
+      "Memory": 8432,
+      "Plans": [
+        {
+          "Node Id": "TableReader",
+          "Plan Rows": 3.996,
+          "Actual Rows": 8,
+          "Task": "root",
+          "Total Time": 56793,
+          "Max Time": 56793,
+          "Access Object": "",
+          "Operation Info": "data:Selection_16",
+          "Execution Info": "time:56.8µs, loops:2, cop_task: {num: 1, max: 870.9µs, proc_keys: 0, rpc_num: 1, rpc_time: 815.6µs, copr_cache_hit_ratio: 0.00}",
+          "Disk": 0,
+          "Memory": 182,
+          "Plans": [
+            {
+              "Node Id": "Selection",
+              "Plan Rows": 3.996,
+              "Actual Rows": 8,
+              "Task": "cop[tikv]",
+              "Total Time": 38332,
+              "Max Time": 38332,
+              "Access Object": "",
+              "Operation Info": "not(isnull(test.t.a))",
+              "Execution Info": "tikv_task:{time:38.3µs, loops:8}",
+              "Disk": 0,
+              "Memory": 0,
+              "Plans": [
+                {
+                  "Node Id": "TableFullScan",
+                  "Plan Rows": 4,
+                  "Actual Rows": 8,
+                  "Task": "cop[tikv]",
+                  "Total Time": 15372,
+                  "Max Time": 15372,
+                  "Access Object": "",
+                  "Operation Info": "table:t, keep order:false, stats:pseudo",
+                  "Execution Info": "tikv_task:{time:15.4µs, loops:8}",
+                  "Disk": 0,
+                  "Memory": 0,
+                  "Plans": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Node Id": "TableReader",
+          "Plan Rows": 3.996,
+          "Actual Rows": 4,
+          "Task": "root",
+          "Total Time": 76708,
+          "Max Time": 76708,
+          "Access Object": "",
+          "Operation Info": "data:Selection_19",
+          "Execution Info": "time:76.7µs, loops:2, cop_task: {num: 1, max: 474.4µs, proc_keys: 0, rpc_num: 1, rpc_time: 452.9µs, copr_cache_hit_ratio: 0.00}",
+          "Disk": 0,
+          "Memory": 173,
+          "Plans": [
+            {
+              "Node Id": "Selection",
+              "Plan Rows": 3.996,
+              "Actual Rows": 4,
+              "Task": "cop[tikv]",
+              "Total Time": 13167,
+              "Max Time": 13167,
+              "Access Object": "",
+              "Operation Info": "not(isnull(test.t2.b))",
+              "Execution Info": "tikv_task:{time:13.2µs, loops:4}",
+              "Disk": 0,
+              "Memory": 0,
+              "Plans": [
+                {
+                  "Node Id": "TableFullScan",
+                  "Plan Rows": 4,
+                  "Actual Rows": 4,
+                  "Task": "cop[tikv]",
+                  "Total Time": 4710,
+                  "Max Time": 4710,
+                  "Access Object": "",
+                  "Operation Info": "table:t2, keep order:false, stats:pseudo",
+                  "Execution Info": "tikv_task:{time:4.71µs, loops:4}",
+                  "Disk": 0,
+                  "Memory": 0,
+                  "Plans": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Node Id": "TableReader",
+      "Plan Rows": 3.996,
+      "Actual Rows": 4,
+      "Task": "root",
+      "Total Time": 466791,
+      "Max Time": 466791,
+      "Access Object": "",
+      "Operation Info": "data:Selection_22",
+      "Execution Info": "time:466.8µs, loops:2, cop_task: {num: 1, max: 411.5µs, proc_keys: 0, rpc_num: 1, rpc_time: 383.8µs, copr_cache_hit_ratio: 0.00}",
+      "Disk": 0,
+      "Memory": 174,
+      "Plans": [
+        {
+          "Node Id": "Selection",
+          "Plan Rows": 3.996,
+          "Actual Rows": 4,
+          "Task": "cop[tikv]",
+          "Total Time": 104500,
+          "Max Time": 104500,
+          "Access Object": "",
+          "Operation Info": "not(isnull(test.t3.c))",
+          "Execution Info": "tikv_task:{time:104.5µs, loops:4}",
+          "Disk": 0,
+          "Memory": 0,
+          "Plans": [
+            {
+              "Node Id": "TableFullScan",
+              "Plan Rows": 4,
+              "Actual Rows": 4,
+              "Task": "cop[tikv]",
+              "Total Time": 4834,
+              "Max Time": 4834,
+              "Access Object": "",
+              "Operation Info": "table:t3, keep order:false, stats:pseudo",
+              "Execution Info": "tikv_task:{time:4.83µs, loops:4}",
+              "Disk": 0,
+              "Memory": 0,
+              "Plans": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

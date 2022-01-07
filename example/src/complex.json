@@ -1,0 +1,266 @@
+{
+  "Node Id": "Projection",
+  "Plan Rows": 20,
+  "Actual Rows": 20,
+  "Task": "root",
+  "Total Time": 12432901425,
+  "Max Time": 12432901425,
+  "Access Object": "",
+  "Operation Info": "new0107.customer.c_custkey, new0107.customer.c_name, Column#39, new0107.customer.c_acctbal, new0107.nation.n_name, new0107.customer.c_address, new0107.customer.c_phone, new0107.customer.c_comment",
+  "Execution Info": "time:12.4s, loops:2, Concurrency:OFF",
+  "Disk": 0,
+  "Memory": 9184,
+  "Plans": [
+    {
+      "Node Id": "TopN",
+      "Plan Rows": 20,
+      "Actual Rows": 20,
+      "Task": "root",
+      "Total Time": 12432821358,
+      "Max Time": 12432821358,
+      "Access Object": "",
+      "Operation Info": "Column#39:desc, offset:0, count:20",
+      "Execution Info": "time:12.4s, loops:2",
+      "Disk": 0,
+      "Memory": 332280,
+      "Plans": [
+        {
+          "Node Id": "HashAgg",
+          "Plan Rows": 4091.8732102300773,
+          "Actual Rows": 27560,
+          "Task": "root",
+          "Total Time": 12358853305,
+          "Max Time": 12358853305,
+          "Access Object": "",
+          "Operation Info": "group by:Column#53, Column#54, Column#55, Column#56, Column#57, Column#58, Column#59, funcs:sum(Column#45)-\u003eColumn#39, funcs:firstrow(Column#46)-\u003enew0107.customer.c_custkey, funcs:firstrow(Column#47)-\u003enew0107.customer.c_name, funcs:firstrow(Column#48)-\u003enew0107.customer.c_address, funcs:firstrow(Column#49)-\u003enew0107.customer.c_phone, funcs:firstrow(Column#50)-\u003enew0107.customer.c_acctbal, funcs:firstrow(Column#51)-\u003enew0107.customer.c_comment, funcs:firstrow(Column#52)-\u003enew0107.nation.n_name",
+          "Execution Info": "time:12.4s, loops:31, partial_worker:{wall_time:11.944525133s, concurrency:5, task_num:78, tot_wait:57.951444954s, tot_exec:1.318075171s, tot_time:59.299784734s, max:11.903643747s, p95:11.903643747s}, final_worker:{wall_time:12.433055596s, concurrency:5, task_num:25, tot_wait:59.382433912s, tot_exec:2.130183647s, tot_time:1m1.512639058s, max:12.429463134s, p95:12.429463134s}",
+          "Disk": 0,
+          "Memory": 39844271,
+          "Plans": [
+            {
+              "Node Id": "Projection",
+              "Plan Rows": 4091.8732102300773,
+              "Actual Rows": 76675,
+              "Task": "root",
+              "Total Time": 11817942115,
+              "Max Time": 11817942115,
+              "Access Object": "",
+              "Operation Info": "mul(new0107.lineitem.l_extendedprice, minus(1, new0107.lineitem.l_discount))-\u003eColumn#45, new0107.customer.c_custkey, new0107.customer.c_name, new0107.customer.c_address, new0107.customer.c_phone, new0107.customer.c_acctbal, new0107.customer.c_comment, new0107.nation.n_name, new0107.customer.c_custkey, new0107.customer.c_name, new0107.customer.c_acctbal, new0107.customer.c_phone, new0107.nation.n_name, new0107.customer.c_address, new0107.customer.c_comment",
+              "Execution Info": "time:11.8s, loops:79, Concurrency:5",
+              "Disk": 0,
+              "Memory": 4707384,
+              "Plans": [
+                {
+                  "Node Id": "Projection",
+                  "Plan Rows": 4091.8732102300773,
+                  "Actual Rows": 76675,
+                  "Task": "root",
+                  "Total Time": 11066596169,
+                  "Max Time": 11066596169,
+                  "Access Object": "",
+                  "Operation Info": "new0107.customer.c_custkey, new0107.customer.c_name, new0107.customer.c_address, new0107.customer.c_phone, new0107.customer.c_acctbal, new0107.customer.c_comment, new0107.lineitem.l_extendedprice, new0107.lineitem.l_discount, new0107.nation.n_name",
+                  "Execution Info": "time:11.1s, loops:79, Concurrency:5",
+                  "Disk": 0,
+                  "Memory": 3480336,
+                  "Plans": [
+                    {
+                      "Node Id": "HashJoin",
+                      "Plan Rows": 4091.8732102300773,
+                      "Actual Rows": 76675,
+                      "Task": "root",
+                      "Total Time": 11020023121,
+                      "Max Time": 11020023121,
+                      "Access Object": "",
+                      "Operation Info": "inner join, equal:[eq(new0107.orders.o_orderkey, new0107.lineitem.l_orderkey)]",
+                      "Execution Info": "time:11s, loops:79, build_hash_table:{total:10.6s, fetch:9.19s, build:1.42s}, probe:{concurrency:5, total:58.6s, max:11.8s, probe:5.37s, fetch:53.2s}",
+                      "Disk": 0,
+                      "Memory": 135284944,
+                      "Plans": [
+                        {
+                          "Node Id": "HashJoin",
+                          "Plan Rows": 27445.442875481385,
+                          "Actual Rows": 38190,
+                          "Task": "root",
+                          "Total Time": 7658392148,
+                          "Max Time": 7658392148,
+                          "Access Object": "",
+                          "Operation Info": "inner join, equal:[eq(new0107.customer.c_custkey, new0107.orders.o_custkey)]",
+                          "Execution Info": "time:7.66s, loops:41, build_hash_table:{total:7.47s, fetch:7.43s, build:35.2ms}, probe:{concurrency:5, total:58.1s, max:11.7s, probe:19.2s, fetch:38.9s}",
+                          "Disk": 0,
+                          "Memory": 1183200,
+                          "Plans": [
+                            {
+                              "Node Id": "HashJoin",
+                              "Plan Rows": 150000,
+                              "Actual Rows": 150000,
+                              "Task": "root",
+                              "Total Time": 4136901244,
+                              "Max Time": 4136901244,
+                              "Access Object": "",
+                              "Operation Info": "inner join, equal:[eq(new0107.nation.n_nationkey, new0107.customer.c_nationkey)]",
+                              "Execution Info": "time:4.14s, loops:148, build_hash_table:{total:461.3µs, fetch:442.8µs, build:18.5µs}, probe:{concurrency:5, total:58s, max:11.6s, probe:40.3s, fetch:17.8s}",
+                              "Disk": 0,
+                              "Memory": 25056,
+                              "Plans": [
+                                {
+                                  "Node Id": "TableReader",
+                                  "Plan Rows": 25,
+                                  "Actual Rows": 25,
+                                  "Task": "root",
+                                  "Total Time": 70716,
+                                  "Max Time": 70716,
+                                  "Access Object": "",
+                                  "Operation Info": "data:TableFullScan_60",
+                                  "Execution Info": "time:70.7µs, loops:2, cop_task: {num: 1, max: 12.7ms, proc_keys: 25, rpc_num: 1, rpc_time: 5.41ms, copr_cache_hit_ratio: 0.00}",
+                                  "Disk": 0,
+                                  "Memory": 794,
+                                  "Plans": [
+                                    {
+                                      "Node Id": "TableFullScan",
+                                      "Plan Rows": 25,
+                                      "Actual Rows": 25,
+                                      "Task": "cop[tikv]",
+                                      "Total Time": 0,
+                                      "Max Time": 0,
+                                      "Access Object": "",
+                                      "Operation Info": "table:nation, keep order:false, stats:pseudo",
+                                      "Execution Info": "tikv_task:{time:0s, loops:1}, scan_detail: {total_process_keys: 25, total_process_keys_size: 3109, total_keys: 26, rocksdb: {delete_skipped_count: 0, key_skipped_count: 25, block: {cache_hit_count: 4, read_count: 0, read_byte: 0 Bytes}}}",
+                                      "Disk": 0,
+                                      "Memory": 0,
+                                      "Plans": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Node Id": "TableReader",
+                                  "Plan Rows": 150000,
+                                  "Actual Rows": 150000,
+                                  "Task": "root",
+                                  "Total Time": 3573045607,
+                                  "Max Time": 3573045607,
+                                  "Access Object": "",
+                                  "Operation Info": "data:TableFullScan_58",
+                                  "Execution Info": "time:3.57s, loops:148, cop_task: {num: 1, max: 3.55s, proc_keys: 150000, tot_proc: 3.45s, tot_wait: 2ms, rpc_num: 1, rpc_time: 3.55s, copr_cache_hit_ratio: 0.00}",
+                                  "Disk": 0,
+                                  "Memory": 32798874,
+                                  "Plans": [
+                                    {
+                                      "Node Id": "TableFullScan",
+                                      "Plan Rows": 150000,
+                                      "Actual Rows": 150000,
+                                      "Task": "cop[tikv]",
+                                      "Total Time": 159000000,
+                                      "Max Time": 159000000,
+                                      "Access Object": "",
+                                      "Operation Info": "table:customer, keep order:false",
+                                      "Execution Info": "tikv_task:{time:159ms, loops:151}, scan_detail: {total_process_keys: 150000, total_process_keys_size: 30533765, total_keys: 150001, rocksdb: {delete_skipped_count: 0, key_skipped_count: 150000, block: {cache_hit_count: 502, read_count: 0, read_byte: 0 Bytes}}}",
+                                      "Disk": 0,
+                                      "Memory": 0,
+                                      "Plans": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Node Id": "TableReader",
+                              "Plan Rows": 27366.4,
+                              "Actual Rows": 38190,
+                              "Task": "root",
+                              "Total Time": 7432218482,
+                              "Max Time": 7432218482,
+                              "Access Object": "",
+                              "Operation Info": "data:Selection_63",
+                              "Execution Info": "time:7.43s, loops:39, cop_task: {num: 2, max: 7.46s, min: 4.58s, avg: 6.02s, p95: 7.46s, max_proc_keys: 583494, p95_proc_keys: 583494, tot_proc: 11.8s, tot_wait: 20ms, rpc_num: 2, rpc_time: 12s, copr_cache_hit_ratio: 0.00}",
+                              "Disk": 0,
+                              "Memory": 946412,
+                              "Plans": [
+                                {
+                                  "Node Id": "Selection",
+                                  "Plan Rows": 27366.4,
+                                  "Actual Rows": 38190,
+                                  "Task": "cop[tikv]",
+                                  "Total Time": 1112000000,
+                                  "Max Time": 769000000,
+                                  "Access Object": "",
+                                  "Operation Info": "ge(new0107.orders.o_orderdate, 1993-08-01 00:00:00.000000), lt(new0107.orders.o_orderdate, 1993-11-01 00:00:00.000000)",
+                                  "Execution Info": "tikv_task:{proc max:769ms, min:343ms, p80:769ms, p95:769ms, iters:987, tasks:2}, scan_detail: {total_process_keys: 1001472, total_process_keys_size: 151717700, total_keys: 1001474, rocksdb: {delete_skipped_count: 0, key_skipped_count: 1001472, block: {cache_hit_count: 2529, read_count: 0, read_byte: 0 Bytes}}}",
+                                  "Disk": 0,
+                                  "Memory": 0,
+                                  "Plans": [
+                                    {
+                                      "Node Id": "TableFullScan",
+                                      "Plan Rows": 1094656,
+                                      "Actual Rows": 1001472,
+                                      "Task": "cop[tikv]",
+                                      "Total Time": 1060000000,
+                                      "Max Time": 740000000,
+                                      "Access Object": "",
+                                      "Operation Info": "table:orders, keep order:false",
+                                      "Execution Info": "tikv_task:{proc max:740ms, min:320ms, p80:740ms, p95:740ms, iters:987, tasks:2}",
+                                      "Disk": 0,
+                                      "Memory": 0,
+                                      "Plans": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "Node Id": "TableReader",
+                          "Plan Rows": 4009.984,
+                          "Actual Rows": 988138,
+                          "Task": "root",
+                          "Total Time": 8605701623,
+                          "Max Time": 8605701623,
+                          "Access Object": "",
+                          "Operation Info": "data:Selection_66",
+                          "Execution Info": "time:8.61s, loops:963, cop_task: {num: 9, max: 9.46s, min: 4.74s, avg: 7.89s, p95: 9.46s, max_proc_keys: 512775, p95_proc_keys: 512775, tot_proc: 1m8.9s, tot_wait: 374ms, rpc_num: 9, rpc_time: 1m11s, copr_cache_hit_ratio: 0.00}",
+                          "Disk": 0,
+                          "Memory": 45586894,
+                          "Plans": [
+                            {
+                              "Node Id": "Selection",
+                              "Plan Rows": 4009.984,
+                              "Actual Rows": 988138,
+                              "Task": "cop[tikv]",
+                              "Total Time": 4543000000,
+                              "Max Time": 711000000,
+                              "Access Object": "",
+                              "Operation Info": "eq(new0107.lineitem.l_returnflag, \"R\")",
+                              "Execution Info": "tikv_task:{proc max:711ms, min:282ms, p80:594ms, p95:711ms, iters:3959, tasks:9}, scan_detail: {total_process_keys: 4009984, total_process_keys_size: 787655655, total_keys: 4009993, rocksdb: {delete_skipped_count: 0, key_skipped_count: 4009984, block: {cache_hit_count: 12898, read_count: 0, read_byte: 0 Bytes}}}",
+                              "Disk": 0,
+                              "Memory": 0,
+                              "Plans": [
+                                {
+                                  "Node Id": "TableFullScan",
+                                  "Plan Rows": 4009984,
+                                  "Actual Rows": 4009984,
+                                  "Task": "cop[tikv]",
+                                  "Total Time": 4133000000,
+                                  "Max Time": 665000000,
+                                  "Access Object": "",
+                                  "Operation Info": "table:lineitem, keep order:false",
+                                  "Execution Info": "tikv_task:{proc max:665ms, min:239ms, p80:541ms, p95:665ms, iters:3959, tasks:9}",
+                                  "Disk": 0,
+                                  "Memory": 0,
+                                  "Plans": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

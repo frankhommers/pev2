@@ -6,7 +6,7 @@ import Home from './views/Home.vue';
 import Plan from './views/Plan.vue';
 import About from './views/About.vue';
 
-import tidbData from './join-tidb.json';
+import tidbData from './complex.json';
 
 const routes = {
   '/': Home,
@@ -14,7 +14,8 @@ const routes = {
   '/about': About,
 };
 
-const data = JSON.stringify(tidbData)
+const data = JSON.stringify([{ "Plan": tidbData }])
+//const data = JSON.stringify(tidbData)
 
 export const planData: any[] = [data, ''];
 
