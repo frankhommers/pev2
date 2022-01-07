@@ -22,13 +22,15 @@
            @mouseenter="eventBus.$emit('mouseovernode', node.nodeId)"
            @mouseleave="eventBus.$emit('mouseoutnode', node.nodeId)"
       >
-        <div :class="['card-body header no-focus-outline', taskClassName]"
+        <div :class="['card-body header no-focus-outline', {'high-cost': node[nodeProps.ACTUAL_ROWS] === highestCost}]"
             v-on:click.stop="showDetails = !showDetails"
         >
           <header class="mb-0">
             <h4 class="text-body">
               <a class="font-weight-normal small" :href="'#plan/node/' + node.nodeId" @click.stop>#{{node.nodeId}}</a>
-              {{ getNodeName() }}
+              <span :class="taskClassName">
+                {{ getNodeName() }}
+              </span>
             </h4>
             <div class="float-right">
               <span v-if="durationClass" :class="'p-0  d-inline-block mb-0 ml-1 text-nowrap alert ' + durationClass" content="Slow" v-tippy><i class="fa fa-fw fa-clock"></i></span>
@@ -477,6 +479,11 @@ export default class PlanNode extends Vue {
     this.costPercent = _.round((this.node[NodeProp.EXCLUSIVE_COST] / maxTotalCost) * 100);
   }
 
+  private get highestCost() {
+    const { maxRows } = this.plan.planStats;
+    return maxRows;
+  }
+
   private get rowsRemovedProp() {
     const nodeKey = Object.keys(this.node).find(
       (key) => key === NodeProp.ROWS_REMOVED_BY_FILTER_REVISED || key === NodeProp.ROWS_REMOVED_BY_JOIN_FILTER_REVISED,
@@ -522,7 +529,7 @@ export default class PlanNode extends Vue {
   private getNodeName(): string {
     let nodeName = this.isParallelAware ? 'Parallel ' : '';
     nodeName += this.node[NodeProp.NODE_TYPE];
-    nodeName = nodeName.replace(/_\d*?$/g, '');
+    nodeName = nodeName.replace(/_\d*/g, ' ');
     if (this.viewOptions.viewMode === ViewMode.DOT && !this.showDetails) {
       return nodeName.replace(/[^A-Z]/g, '');
     }

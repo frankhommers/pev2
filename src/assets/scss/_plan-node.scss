@@ -212,15 +212,23 @@ $bg-color: #fff;
 }
 
 .task-tidb {
-  background-color: #d9f7be !important;
+  color: #95de64;
 }
 
 .task-tikv {
-  background-color: #bae7ff !important;
+  color: #69c0ff;
 }
 
 .task-tiflash {
-  background-color: #b5f5ec !important;
+  color: #5cdbd3;
+}
+
+.high-cost {
+  background-color: #e80 !important;
+
+  span {
+    color: #fff;
+  }
 }
 
 .node-bar-container {
