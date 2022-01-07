@@ -6,7 +6,7 @@ import Home from './views/Home.vue';
 import Plan from './views/Plan.vue';
 import About from './views/About.vue';
 
-import tidbData from './tidb.json';
+import tidbData from './join-tidb.json';
 
 const routes = {
   '/': Home,

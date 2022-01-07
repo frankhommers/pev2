@@ -211,6 +211,18 @@ $bg-color: #fff;
   }
 }
 
+.task-tidb {
+  background-color: #d9f7be !important;
+}
+
+.task-tikv {
+  background-color: #bae7ff !important;
+}
+
+.task-tiflash {
+  background-color: #b5f5ec !important;
+}
+
 .node-bar-container {
   height: 5px;
   margin-top: $padding-lg;

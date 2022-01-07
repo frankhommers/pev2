@@ -1,7 +1,14 @@
 <template>
   <div :class="{'subplan': node[nodeProps.SUBPLAN_NAME], 'd-flex flex-column align-items-center': viewOptions.orientation == orientations.TWOD}">
     <h4 v-if="node[nodeProps.SUBPLAN_NAME]">{{ node[nodeProps.SUBPLAN_NAME] }}</h4>
-    <div :class="['text-left plan-node', {'detailed': showDetails, 'never-executed': isNeverExecuted, 'parallel': workersPlannedCount, 'selected': selected}]">
+    <div
+      :class="['text-left plan-node', {
+        'detailed': showDetails,
+        'never-executed': isNeverExecuted,
+        'parallel': workersPlannedCount,
+        'selected': selected
+      }]"
+    >
       <div class="workers text-muted py-0 px-1" v-if="workersPlannedCount">
         <div v-for="index in workersPlannedCountReversed" :style="'top: ' + (1 + index * 2)  + 'px; left: ' + (1 + (index + 1) * 3) + 'px;'"
              :class="{'border-dashed': index >= workersLaunchedCount}">
@@ -15,7 +22,7 @@
            @mouseenter="eventBus.$emit('mouseovernode', node.nodeId)"
            @mouseleave="eventBus.$emit('mouseoutnode', node.nodeId)"
       >
-        <div class="card-body header no-focus-outline"
+        <div :class="['card-body header no-focus-outline', taskClassName]"
             v-on:click.stop="showDetails = !showDetails"
         >
           <header class="mb-0">
@@ -175,6 +182,13 @@
               </span>
             </div>
 
+             <div v-if="node[nodeProps.TASK]" title="Task">
+              <i class="fa-thumbtack fa fa-fw text-muted"></i>
+              <span>
+                <b>Task:</b> <span class="px-1">{{ formattedProp('TASK') }}</span>
+              </span>
+            </div>
+
             <!-- general tab -->
           </div>
           <div class="tab-pane" :class="{'show active': activeTab === 'iobuffer' }">
@@ -319,6 +333,7 @@ import { cost, duration, factor, formatNodeProp, keysToString, sortKeys, truncat
 import { EstimateDirection, HighlightType, NodeProp, nodePropTypes, Orientation,
          PropType, ViewMode, WorkerProp } from '@/enums';
 import * as _ from 'lodash';
+import { includes } from 'lodash';
 
 @Component({
   name: 'plan-node',
@@ -765,6 +780,22 @@ export default class PlanNode extends Vue {
     const property = NodeProp[propName];
     const value = this.node[property];
     return this.$options!.filters!.formatNodeProp(property, value);
+  }
+
+  private get taskClassName() {
+    const task = this.node[NodeProp.TASK];
+    if (!task) {
+      return '';
+    }
+    if (task === 'root') {
+      return 'task-tidb';
+    }
+    if (task.includes('tikv')) {
+      return 'task-tikv';
+    }
+    if (task.includes('tiflash')) {
+      return 'task-tiflash';
+    }
   }
 }
 </script>
