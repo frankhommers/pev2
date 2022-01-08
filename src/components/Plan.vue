@@ -258,6 +258,8 @@ import Copy from '@/components/Copy.vue';
 import Diagram from '@/components/Diagram.vue';
 import Stats from '@/components/Stats.vue';
 
+import { format } from 'sql-formatter';
+
 // Services.
 import { HelpService, scrollChildIntoParentView } from '@/services/help-service';
 import { PlanService } from '@/services/plan-service';
@@ -371,6 +373,7 @@ export default class Plan extends Vue {
     if (!this.planSource) {
       const { data } = sqlData;
       this.planSource = JSON.stringify([{ "Plan": data[0].plan }]);
+      this.planQuery = data[0].sql;
     }
 
     this.renderPlan();
@@ -389,7 +392,10 @@ export default class Plan extends Vue {
       return;
     }
     this.rootNode = planJson.Plan;
-    this.queryText = planJson['Query Text'] || this.planQuery;
+    this.queryText = planJson['Query Text'] || this.planQuery || '';
+
+    this.queryText = format(this.queryText);
+
     this.plan = this.planService.createPlan('', planJson, this.queryText);
     const content = this.plan.content;
     this.plan.planStats = {
@@ -471,6 +477,7 @@ export default class Plan extends Vue {
   handleitem(index: number) {
     const { data } = sqlData
     this.planSource = JSON.stringify([{ "Plan": data[index].plan }]);
+    this.planQuery = data[index].sql;
   }
 
   private highlightEl(el: Element | HTMLElement | null, centerMode: CenterMode, highlightMode: HighlightMode) {
