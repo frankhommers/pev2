@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column vh-100">
-    <div class="navbar container flex-shrink-0">
+    <div class="navbar flex-shrink-0 border-bottom" style="justify-content: center;">
      <h1>TiDB Visual Plan</h1>
     </div>
     <slot></slot>

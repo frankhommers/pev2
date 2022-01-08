@@ -1,7 +1,7 @@
 <template>
   <div class="plan-container d-flex flex-column overflow-hidden flex-grow-1 bg-light">
     <div>
-      <ul class="nav nav-pills">
+      <ul class="nav nav-pills border-bottom">
         <li class="nav-item p-1">
           <a class="nav-link px-2 py-0" :class="{'active' : activeTab === 'plan' }" href="#plan">Plan</a>
         </li>
@@ -26,7 +26,7 @@
         <!-- Plan tab -->
         <div class="d-flex flex-column flex-grow-1 overflow-hidden"
            :class="[viewOptions.viewMode, viewOptions.orientation]">
-          <div class="plan-stats flex-shrink-0 d-flex border-bottom border-top form-inline" v-if="plan">
+          <div class="plan-stats flex-shrink-0 d-flex border-bottom form-inline" v-if="plan">
             <div class="d-inline-block px-2">
               Execution time:
               <template v-if="!plan.planStats.executionTime">
@@ -132,7 +132,7 @@
                   >
                   </plan-list>
                 </pane>
-                <pane
+                <!-- <pane
                   size="20"
                   class="d-flex"
                   v-if="viewOptions.showDiagram"
@@ -147,7 +147,7 @@
                       <slot name="nodeindex" v-bind:node="node"></slot>
                     </template>
                   </diagram>
-                </pane>
+                </pane> -->
                 <pane ref="plan" class="plan d-flex flex-column flex-grow-1 grab-bing overflow-auto">
                   <ul class="main-plan p-2 mb-0">
                     <li>

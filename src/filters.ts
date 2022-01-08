@@ -184,5 +184,7 @@ export function pgsql(text: string) {
 }
 
 export function json(text: string) {
-  return hljs.highlight(text, {language: 'json'}).value;
+  const obj = JSON.parse(text)
+  const formatedText = JSON.stringify(obj, null, 2);
+  return hljs.highlight(formatedText, {language: 'json'}).value;
 }
