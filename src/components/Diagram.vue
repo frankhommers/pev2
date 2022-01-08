@@ -200,10 +200,16 @@ export default class Diagram extends Vue {
   };
 
   private created(): void {
+    this.handleRender();
+  }
+
+  @Watch('plan')
+  private handleRender(): void {
     const savedOptions = localStorage.getItem('diagramViewOptions');
     if (savedOptions) {
       _.assignIn(this.viewOptions, JSON.parse(savedOptions));
     }
+    this.plans[0] = []
     this.flatten(this.plans[0], 0, this.plan.content.Plan, true, []);
 
     _.each(this.plan.ctes, (cte) => {
