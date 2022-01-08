@@ -125,21 +125,28 @@
           <div class="flex-grow-1 d-flex overflow-hidden">
             <div class="flex-grow-1 overflow-hidden">
               <splitpanes class="default-theme" @resize="viewOptions.diagramWidth = $event[0].size">
+                <pane size="20" ref="plan-list">
+                  <plan-list
+                    :plan="plan"
+                    @handleitem="handleitem"
+                  >
+                  </plan-list>
+                </pane>
                 <pane
-                      :size="viewOptions.diagramWidth"
-                      class="d-flex"
-                      v-if="viewOptions.showDiagram"
-                      >
-                      <diagram
-                        ref="diagram"
-                        :plan="plan"
-                        :eventBus="eventBus"
-                        class="d-flex flex-column flex-grow-1 overflow-hidden plan-diagram"
-                        >
-                        <template v-slot:nodeindex="{ node }">
-                          <slot name="nodeindex" v-bind:node="node"></slot>
-                        </template>
-                      </diagram>
+                  size="20"
+                  class="d-flex"
+                  v-if="viewOptions.showDiagram"
+                >
+                  <diagram
+                    ref="diagram"
+                    :plan="plan"
+                    :eventBus="eventBus"
+                    class="d-flex flex-column flex-grow-1 overflow-hidden plan-diagram"
+                    >
+                    <template v-slot:nodeindex="{ node }">
+                      <slot name="nodeindex" v-bind:node="node"></slot>
+                    </template>
+                  </diagram>
                 </pane>
                 <pane ref="plan" class="plan d-flex flex-column flex-grow-1 grab-bing overflow-auto">
                   <ul class="main-plan p-2 mb-0">
@@ -245,6 +252,7 @@ import { Splitpanes, Pane } from 'splitpanes';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 // Sub components.
+import PlanList from '@/components/PlanList.vue';
 import PlanNode from '@/components/PlanNode.vue';
 import Copy from '@/components/Copy.vue';
 import Diagram from '@/components/Diagram.vue';
@@ -260,6 +268,8 @@ import { IPlan } from '@/iplan';
 
 import Dragscroll from '@/dragscroll';
 
+import sqlData from '@/services/sql-data.js';
+
 import VueTippy, { TippyComponent } from 'vue-tippy';
 Vue.use(VueTippy);
 Vue.component('tippy', TippyComponent);
@@ -273,6 +283,7 @@ Vue.component('tippy', TippyComponent);
     PlanNode,
     Splitpanes,
     Stats,
+    PlanList,
   },
   directives: {
   },
@@ -292,8 +303,6 @@ export default class Plan extends Vue {
     diagram: InstanceType<typeof Diagram>,
   };
 
-  @Prop(String) private planSource!: string;
-  @Prop(String) private planQuery!: string;
   @Prop(Number) private zoomTo!: number;
 
   private queryText!: string;
@@ -307,6 +316,9 @@ export default class Plan extends Vue {
   private activeTab: string = '';
   private highlightTimeout!: number;
   private rawCopied: boolean = false;
+
+  private planSource: string = '';
+  private planQuery: string = '';
 
   private helpService = new HelpService();
   private lodash = _;
@@ -355,6 +367,17 @@ export default class Plan extends Vue {
     if (savedOptions) {
       _.assignIn(this.viewOptions, JSON.parse(savedOptions));
     }
+
+    if (!this.planSource) {
+      const { data } = sqlData;
+      this.planSource = JSON.stringify([{ "Plan": data[0].plan }]);
+    }
+
+    this.renderPlan();
+  }
+
+  @Watch('planSource')
+  private renderPlan(): void {
     let planJson: any;
     try {
       planJson = this.planService.fromSource(this.planSource);
@@ -443,6 +466,11 @@ export default class Plan extends Vue {
         cmp.setShowDetails(true);
       }
     }
+  }
+
+  handleitem(index: number) {
+    const { data } = sqlData
+    this.planSource = JSON.stringify([{ "Plan": data[index].plan }]);
   }
 
   private highlightEl(el: Element | HTMLElement | null, centerMode: CenterMode, highlightMode: HighlightMode) {

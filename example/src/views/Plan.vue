@@ -1,6 +1,6 @@
 <template>
   <main-layout>
-  <plan v-if="planSource" :plan-source="planSource" :plan-query="planQuery" ref="plan"></plan>
+    <plan ref="plan"></plan>
   </main-layout>
 </template>
 
@@ -17,6 +17,7 @@ import { planData } from '../main';
     Plan,
   },
 })
+
 export default class App extends Vue {
   private planSource: any | any[] = planData[0];
   private planQuery: string = planData[1];

@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column vh-100">
     <div class="navbar container flex-shrink-0">
-     <h1>TiDB EXPLAIN Visualizer</h1>
+     <h1>TiDB Visual Plan</h1>
     </div>
     <slot></slot>
   </div>

@@ -355,7 +355,7 @@ export default class PlanNode extends Vue {
   @Prop(Object) private plan!: any;
   @Prop(Object) private viewOptions!: any;
   @Prop() private eventBus!: InstanceType<typeof Vue>;
-
+  
   // UI flags
   private showDetails: boolean = false;
   private collapsed: boolean = false;
@@ -452,7 +452,12 @@ export default class PlanNode extends Vue {
     this.showDetails = showDetails;
   }
 
-  private created(): void {
+  created() {
+    this.handleupdate();
+  }
+
+  @Watch('plan')
+  private handleupdate(): void {
     this.calculateProps();
     this.calculateBar();
     this.calculateDuration();
@@ -481,6 +486,12 @@ export default class PlanNode extends Vue {
     const { maxRows } = this.plan.planStats;
     return maxRows;
   }
+
+  // updated() {
+  //   if (this.plan)
+  //   console.log('updated')
+  //   this.handleupdate()
+  // }
 
   private get rowsRemovedProp() {
     const nodeKey = Object.keys(this.node).find(

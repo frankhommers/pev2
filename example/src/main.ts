@@ -14,10 +14,7 @@ const routes = {
   '/about': About,
 };
 
-const data = JSON.stringify([{ "Plan": tidbData }])
-//const data = JSON.stringify(tidbData)
-
-export const planData: any[] = [data, ''];
+export const planData: any[] = ['', ''];
 
 Vue.config.productionTip = false;
 
