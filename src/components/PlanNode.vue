@@ -329,7 +329,7 @@ export default class PlanNode extends Vue {
       NodeProp.NODE_TYPE,
       NodeProp.CTE_NAME,
       NodeProp.EXCLUSIVE_DURATION,
-      NodeProp.EXECUTION_INFO,
+      // NodeProp.EXECUTION_INFO,
       NodeProp.ACTUAL_TOTAL_TIME,
       NodeProp.MEMORY,
       NodeProp.DISK,
@@ -427,12 +427,6 @@ export default class PlanNode extends Vue {
     const { maxRows } = this.plan.planStats;
     return maxRows;
   }
-
-  // updated() {
-  //   if (this.plan)
-  //   console.log('updated')
-  //   this.handleupdate()
-  // }
 
   private get rowsRemovedProp() {
     const nodeKey = Object.keys(this.node).find(
@@ -563,8 +557,9 @@ export default class PlanNode extends Vue {
   private get durationClass() {
     let c;
     const i = this.executionTimePercent;
+    
     if (i > 90) {
-      c = 4;
+      return false;
     } else if (i > 40) {
       c = 3;
     } else if (i > 10) {
