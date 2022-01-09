@@ -131,8 +131,8 @@
                   >
                   </plan-list>
                 </pane>
-                <!-- <pane
-                  size="20"
+                <pane
+                  size="0"
                   class="d-flex"
                   v-if="viewOptions.showDiagram"
                 >
@@ -146,7 +146,7 @@
                       <slot name="nodeindex" v-bind:node="node"></slot>
                     </template>
                   </diagram>
-                </pane> -->
+                </pane>
                 <pane ref="plan" class="plan d-flex flex-column flex-grow-1 grab-bing overflow-auto">
                   <ul class="main-plan p-2 mb-0">
                     <li>
