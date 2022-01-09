@@ -600,7 +600,7 @@ export default class Plan extends Vue {
     if (cmp) {
       cmp.selected = true;
     }
-    this.$refs.diagram.selected = newVal;
+    // this.$refs.diagram.selected = newVal;
 
     cmp = this.findPlanNode((o: PlanNode) => o.node.nodeId === oldVal);
     if (cmp) {

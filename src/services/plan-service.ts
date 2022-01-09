@@ -149,11 +149,34 @@ export class PlanService {
       // node[NodeProp.ACTUAL_STARTUP_TIME] = node[NodeProp.ACTUAL_STARTUP_TIME] * node[NodeProp.ACTUAL_LOOPS] / workers;
       node[NodeProp.EXCLUSIVE_DURATION] = node[NodeProp.ACTUAL_TOTAL_TIME];
 
-      const duration = node[NodeProp.EXCLUSIVE_DURATION] - this.childrenDuration(node, 0);
-      console.log(duration);
-      
+      // const duration = node[NodeProp.EXCLUSIVE_DURATION] - this.childrenDuration(node, 0);
+      const duration = node[NodeProp.EXCLUSIVE_DURATION]; // TODO: Change here.
       node[NodeProp.EXCLUSIVE_DURATION] = duration > 0 ? duration : 0;
     }
+
+    // TIDB Customize ---------------------
+    if (node[NodeProp.MEMORY] !== undefined && node[NodeProp.MEMORY] > 100) {
+      const unit = 1024;
+      const memory = node[NodeProp.MEMORY];
+      const firstSub = memory / unit;
+      if (firstSub > 1024) {
+        node[NodeProp.MEMORY] = (firstSub / unit).toFixed(2) + ' Mb';
+      } else {
+        node[NodeProp.MEMORY] = firstSub.toFixed(2) + ' Kb';
+      }
+    }
+
+    if (node[NodeProp.DISK] !== undefined && node[NodeProp.DISK] > 100) {
+      const unit = 1024;
+      const disk = node[NodeProp.DISK];
+      const firstSub = disk / unit;
+      if (firstSub > 1024) {
+        node[NodeProp.DISK] = (firstSub / unit).toFixed(2) + ' Mb';
+      } else {
+        node[NodeProp.DISK] = firstSub.toFixed(2) + ' Kb';
+      }
+    }
+    // TIDB Customize ---------------------
 
     if (node[NodeProp.TOTAL_COST]) {
       node[NodeProp.EXCLUSIVE_COST] = node[NodeProp.TOTAL_COST];

@@ -27,7 +27,7 @@
         >
           <header class="mb-0">
             <h4 class="text-body">
-              <a class="font-weight-normal small" :href="'#plan/node/' + node.nodeId" @click.stop>#{{node.nodeId}}</a>
+              <span class="font-weight-normal small">#{{node.nodeId}}</span>
               {{ getNodeName() }}
             </h4>
             <div class="float-right">
@@ -329,6 +329,11 @@ export default class PlanNode extends Vue {
       NodeProp.NODE_TYPE,
       NodeProp.CTE_NAME,
       NodeProp.EXCLUSIVE_DURATION,
+      NodeProp.EXECUTION_INFO,
+      NodeProp.ACTUAL_TOTAL_TIME,
+      NodeProp.MEMORY,
+      NodeProp.DISK,
+      NodeProp.TOTAL_TIME,
       NodeProp.EXCLUSIVE_COST,
       NodeProp.TOTAL_COST,
       NodeProp.PLAN_ROWS,
@@ -400,8 +405,10 @@ export default class PlanNode extends Vue {
     this.calculateRowsRemoved();
 
     this.plans = this.node[NodeProp.PLANS];
+    this.showDetails = false;
 
-    console.log(this.node);
+  console.log(this.node);
+  
 
     this.plannerRowEstimateDirection = this.node[NodeProp.PLANNER_ESTIMATE_DIRECTION];
     this.plannerRowEstimateValue = this.node[NodeProp.PLANNER_ESTIMATE_FACTOR];

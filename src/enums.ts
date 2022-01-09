@@ -75,6 +75,10 @@ export enum NodeProp {
   ACTUAL_ROWS = 'Actual Rows',
   PLAN_ROWS = 'Plan Rows',
 
+  EXECUTION_INFO = 'Execution Info',
+
+  TOTAL_TIME = 'Total Time',
+
   DISK = 'Disk',
   MEMORY = 'Memory',
   TASK = 'Task',
@@ -89,7 +93,7 @@ export enum NodeProp {
   ACTUAL_LOOPS = 'Actual Loops',
 
   STARTUP_COST = 'Startup Cost',
-  TOTAL_COST = 'Total Cost',
+  TOTAL_COST = 'Actual Rows',
 
   PLANS = 'Plans',
   RELATION_NAME = 'Relation Name',
