@@ -99,9 +99,12 @@
               <a class="nav-link" :class="{'active' : activeTab === 'general' }" @click.prevent="setActiveTab('general')" href>General</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" :class="{'active' : activeTab === 'misc' }" @click.prevent="setActiveTab('misc')" href>Misc</a>
+              <a class="nav-link" :class="{'active' : activeTab === 'execution-info' }" @click.prevent="setActiveTab('execution-info')" href>Execution Info</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" :class="{'active' : activeTab === 'misc' }" @click.prevent="setActiveTab('misc')" href>Misc</a>
+            </li>
+            <li class="nav-item" v-if="costClass === 'c-4'">
               <a class="nav-link" :class="{'active' : activeTab === 'advisor' }" @click.prevent="setActiveTab('advisor')" href>Advisor</a>
             </li>
           </ul>
@@ -232,6 +235,12 @@
             </div>
             <!-- workers tab -->
           </div>
+          <div class="tab-pane" :class="{'show active': activeTab === 'execution-info'}">
+              <!-- Execution info tab -->
+              <div>
+                {{node[nodeProps.EXECUTION_INFO]}}
+              </div>
+          </div>
           <div class="tab-pane" :class="{'show active': activeTab === 'misc'}">
             <!-- misc tab -->
             <table class="table table-sm prop-list">
@@ -243,6 +252,26 @@
 
             <div class="text-muted text-right"><em>* Calculated value</em></div>
             <!-- misc tab -->
+          </div>
+          <div class="tab-pane" :class="{'show active': activeTab === 'advisor'}">
+              <!-- Advisor tab -->
+              <div>
+                <table class="table table-sm prop-list">
+                  <tr>
+                    <td width="40%">Hint: </td>
+                    <td>USE_INDEX</td>
+                  </tr>
+                  <tr>
+                    <td width="40%">Original Cost:</td>
+                    <td>{{ formattedProp('EXCLUSIVE_COST') }}</td>
+                  </tr>
+                  <tr>
+                    <td>Tunning Cost:</td>
+                    <td>{{'To be added'}}</td>
+                  </tr>
+                </table>
+                <button class="btn btn-primary btn-small float-right">Apply</button>
+              </div>
           </div>
         </div>
 
@@ -329,7 +358,7 @@ export default class PlanNode extends Vue {
       NodeProp.NODE_TYPE,
       NodeProp.CTE_NAME,
       NodeProp.EXCLUSIVE_DURATION,
-      // NodeProp.EXECUTION_INFO,
+      NodeProp.EXECUTION_INFO,
       NodeProp.ACTUAL_TOTAL_TIME,
       NodeProp.MEMORY,
       NodeProp.DISK,
