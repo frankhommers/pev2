@@ -17,7 +17,6 @@
       </ul>
     </div>
 
-
     <div class="tab-content flex-grow-1 d-flex overflow-hidden">
       <div v-if="validationMessage" class="flex-grow-1 d-flex justify-content-center">
         <div class="alert alert-danger align-self-center">{{validationMessage}}</div>
@@ -176,10 +175,10 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="form-check">
+              <!-- <div class="form-check">
                 <input id="showDiagram" type="checkbox" v-model="viewOptions.showDiagram" class="form-check-input">
                 <label for="showDiagram" class="form-check-label"><i class="fa fa-align-left"></i> Diagram</label>
-              </div>
+              </div> -->
               <hr>
               <label class="text-uppercase">Density</label>
               <div class="form-group">

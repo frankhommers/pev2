@@ -82,11 +82,15 @@ export enum NodeProp {
   PLAN_WIDTH = 'Plan Width',
   ROWS_REMOVED_BY_FILTER = 'Rows Removed by Filter',
   ROWS_REMOVED_BY_JOIN_FILTER = 'Rows Removed by Join Filter',
+
   ACTUAL_STARTUP_TIME = 'Actual Startup Time',
-  ACTUAL_TOTAL_TIME = 'Total Times',
+  ACTUAL_TOTAL_TIME = 'Max Time',
+
   ACTUAL_LOOPS = 'Actual Loops',
+
   STARTUP_COST = 'Startup Cost',
   TOTAL_COST = 'Total Cost',
+
   PLANS = 'Plans',
   RELATION_NAME = 'Relation Name',
   SCHEMA = 'Schema',

@@ -145,18 +145,19 @@ export class PlanService {
       // since time is reported for an invidual loop, actual duration must be adjusted by number of loops
       // number of workers is also taken into account
       const workers = (node[NodeProp.WORKERS_PLANNED_BY_GATHER] || 0) + 1;
-      node[NodeProp.ACTUAL_TOTAL_TIME] = node[NodeProp.ACTUAL_TOTAL_TIME] * node[NodeProp.ACTUAL_LOOPS] / workers;
-      node[NodeProp.ACTUAL_STARTUP_TIME] = node[NodeProp.ACTUAL_STARTUP_TIME] * node[NodeProp.ACTUAL_LOOPS] / workers;
+      // node[NodeProp.ACTUAL_TOTAL_TIME] = node[NodeProp.ACTUAL_TOTAL_TIME] * node[NodeProp.ACTUAL_LOOPS] / workers;
+      // node[NodeProp.ACTUAL_STARTUP_TIME] = node[NodeProp.ACTUAL_STARTUP_TIME] * node[NodeProp.ACTUAL_LOOPS] / workers;
       node[NodeProp.EXCLUSIVE_DURATION] = node[NodeProp.ACTUAL_TOTAL_TIME];
 
       const duration = node[NodeProp.EXCLUSIVE_DURATION] - this.childrenDuration(node, 0);
+      console.log(duration);
+      
       node[NodeProp.EXCLUSIVE_DURATION] = duration > 0 ? duration : 0;
     }
 
     if (node[NodeProp.TOTAL_COST]) {
       node[NodeProp.EXCLUSIVE_COST] = node[NodeProp.TOTAL_COST];
     }
-
 
     _.each(node[NodeProp.PLANS], (subPlan) => {
       if (subPlan[NodeProp.PARENT_RELATIONSHIP] !== 'InitPlan' && subPlan[NodeProp.TOTAL_COST]) {
@@ -309,7 +310,12 @@ export class PlanService {
       } else {
         const keys = Object.keys(current);
         const lastKey = keys[keys.length - 1];
-        current[lastKey] = v;
+
+        if (lastKey === NodeProp.ACTUAL_TOTAL_TIME && Number.isInteger(v)) {
+          current[lastKey] = v / 1000000;
+        } else {
+          current[lastKey] = v;
+        }
       }
     };
     parser.onopenobject = (key: any) => {
@@ -319,6 +325,7 @@ export class PlanService {
     };
     parser.onkey = (key: any) => {
       const current = elements[elements.length - 1];
+      
       const keys = Object.keys(current);
       if (keys.indexOf(key) !== -1) {
         duplicated = [elements.length - 1, current[key]];
@@ -357,6 +364,28 @@ export class PlanService {
     }
     return root;
   }
+
+  // preProcessData(current: any) {
+  //   const keys = Object.keys(current);
+  //   for (let key of keys) {
+  //     const v = current[key]
+  //     if (key === 'Plans') {
+  //       v.forEach((node: any) => this.preProcessData(node));
+  //     }
+  //     if (key === 'Execution Info') {
+  //         const timeMatch = v.match(/time:\d+\.?\d?/);
+  //         if (timeMatch !== null) {
+  //           const time = parseFloat(timeMatch[0].replace('time:', ''))
+  //           current[NodeProp.ACTUAL_TOTAL_TIME] = time;
+  //         }
+
+  //         const loopMatch = v.match(/loops:\d+/)
+  //         if (loopMatch !== null) {
+  //           current[NodeProp.ACTUAL_LOOPS] = parseInt(loopMatch[0]);
+  //         }
+  //     }
+  //   }
+  // }
 
   public splitIntoLines(text: string): string[] {
     // Splits source into lines, while fixing (well, trying to fix)

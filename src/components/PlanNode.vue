@@ -99,16 +99,10 @@
               <a class="nav-link" :class="{'active' : activeTab === 'general' }" @click.prevent="setActiveTab('general')" href>General</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-nowrap" :class="{'active' : activeTab === 'iobuffer', 'disabled': !shouldShowIoBuffers }" @click.prevent="setActiveTab('iobuffer')" href>IO & Buffers</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" :class="{'active' : activeTab === 'output', 'disabled': !node[nodeProps.OUTPUT] }" @click.prevent="setActiveTab('output')" href>Output</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" :class="{'active' : activeTab === 'workers', 'disabled': !(node[nodeProps.WORKERS_PLANNED] || node[nodeProps.WORKERS_PLANNED_BY_GATHER]) }" @click.prevent="setActiveTab('workers')" href>Workers</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" :class="{'active' : activeTab === 'misc' }" @click.prevent="setActiveTab('misc')" href>Misc</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" :class="{'active' : activeTab === 'advisor' }" @click.prevent="setActiveTab('advisor')" href>Advisor</a>
             </li>
           </ul>
         </div>
@@ -190,65 +184,6 @@
             </div> -->
 
             <!-- general tab -->
-          </div>
-          <div class="tab-pane" :class="{'show active': activeTab === 'iobuffer' }">
-            <!-- iobuffer tab -->
-            <div v-if="node[nodeProps.EXCLUSIVE_IO_READ_TIME] || node[nodeProps.EXCLUSIVE_IO_WRITE_TIME]" class="mb-2">
-              <b>
-                I/O Timings:
-              </b>
-              <span v-if="node[nodeProps.EXCLUSIVE_IO_READ_TIME]" class="ml-2">
-                <b>Read:&nbsp;</b>
-                {{ formattedProp('EXCLUSIVE_IO_READ_TIME') }}
-              </span>
-              <span v-if="node[nodeProps.EXCLUSIVE_IO_WRITE_TIME]" class="ml-2">
-                <b>Write:&nbsp;</b>
-                {{ formattedProp('EXCLUSIVE_IO_WRITE_TIME') }}
-              </span>
-            </div>
-            <b>
-              Blocks:
-            </b>
-            <table class="table table-sm">
-              <tr>
-                <td></td>
-                <th class="text-right" width="25%">Hit</th>
-                <th class="text-right" width="25%">Read</th>
-                <th class="text-right" width="25%">Dirtied</th>
-                <th class="text-right" width="25%">Written</th>
-              </tr>
-              <tr>
-                <th>Shared</th>
-                <td class="text-right" v-html="formattedProp('EXCLUSIVE_SHARED_HIT_BLOCKS') || '-'"></td>
-                <td class="text-right" v-html="formattedProp('EXCLUSIVE_SHARED_READ_BLOCKS') || '-'"></td>
-                <td class="text-right" v-html="formattedProp('EXCLUSIVE_SHARED_DIRTIED_BLOCKS') || '-'"></td>
-                <td class="text-right" v-html="formattedProp('EXCLUSIVE_SHARED_WRITTEN_BLOCKS') || '-'"></td>
-              </tr>
-              <tr>
-                <th>Temp</th>
-                <td class="text-right bg-hatched"></td>
-                <td class="text-right" v-html="formattedProp('EXCLUSIVE_TEMP_READ_BLOCKS') || '-'"></td>
-                <td class="text-right bg-hatched"></td>
-                <td class="text-right" v-html="formattedProp('EXCLUSIVE_TEMP_WRITTEN_BLOCKS') || '-'"></td>
-              </tr>
-              <tr>
-                <th>Local</th>
-                <td class="text-right" v-html="formattedProp('EXCLUSIVE_LOCAL_HIT_BLOCKS') || '-'"></td>
-                <td class="text-right" v-html="formattedProp('EXCLUSIVE_LOCAL_READ_BLOCKS') || '-'"></td>
-                <td class="text-right" v-html="formattedProp('EXCLUSIVE_LOCAL_DIRTIED_BLOCKS') || '-'"></td>
-                <td class="text-right" v-html="formattedProp('EXCLUSIVE_LOCAL_WRITTEN_BLOCKS') || '-'"></td>
-              </tr>
-            </table>
-            <div v-if="node[nodeProps.WAL_RECORDS] || node[nodeProps.WAL_BYTES]" class="mb-2">
-              <b>
-                <span class="more-info" content="Write-Ahead Logging" v-tippy>WAL</span>:
-              </b>
-              {{ formattedProp('WAL_RECORDS') }} records <small>({{ formattedProp('WAL_BYTES') }})</small>
-              <span v-if="node[nodeProps.WAL_FPI]"> -
-              <span class="more-info" content="WAL Full Page Images" v-tippy>FPI</span>: {{ formattedProp('WAL_FPI') }}
-              </span>
-            </div>
-            <!-- iobuffer tab -->
           </div>
           <div class="tab-pane overflow-auto text-monospace" :class="{'show active': activeTab === 'output' }" v-html="formattedProp('OUTPUT')" style="max-height: 200px">
             <!-- output tab -->
@@ -465,6 +400,8 @@ export default class PlanNode extends Vue {
     this.calculateRowsRemoved();
 
     this.plans = this.node[NodeProp.PLANS];
+
+    console.log(this.node);
 
     this.plannerRowEstimateDirection = this.node[NodeProp.PLANNER_ESTIMATE_DIRECTION];
     this.plannerRowEstimateValue = this.node[NodeProp.PLANNER_ESTIMATE_FACTOR];
